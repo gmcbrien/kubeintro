@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# GMcB - a quick helper script to change Kubernetes namespace only
+# Version 0.2
+
+createmenu ()
+{
+  #echo "Items in the array: $#"
+  #echo "$@"
+  COLUMNS=1
+  select option; do # in "$@" is the default
+    if [ "$REPLY" -eq "$#" ];
+    then
+      echo "Exiting..."
+      break;
+    elif [ 1 -le "$REPLY" ] && [ "$REPLY" -le $(($#-1)) ];
+    then
+      return 0
+      break;
+    else
+      echo "Incorrect Input: Select a number 1-$#"
+    fi
+  done
+}
+
+get_ns ()
+{
+  ns_array=($(kubectl get ns | grep -v NAME | awk '{print $1}'))
+}
+
+switch_namespace ()
+{
+  get_ns
+  #echo -e "\nYou are currently in cluster" $(kubectl config current-context)
+  echo -e "\nPlease select your namespace:\n"
+  createmenu "${ns_array[@]}"
+  echo -e "\nSwitching to namespace $option"
+  kubectl config set-context $(kubectl config current-context) --namespace=$option
+  kcur
+}
+
+kcur () {
+
+        echo -e "\nYou are currently here:\n"
+        echo -e "Current Cluster:\t"    $(kubectl config current-context)
+        echo -e "Current Namespace:\t"  $(kubectl config view -o=jsonpath="{.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}\n")
+}
+
+if [ $# -eq 0 ]; then
+  switch_namespace
+else
+  get_ns
+  if [[ ! " ${ns_array[@]} " =~ " $1 " ]]; then
+    echo -e "\nOops - can't switch to namespace $1. It doesn't exist.\nHere's a list of the ones that do. Type a number"
+    switch_namespace
+  else
+    kubectl config set-context $(kubectl config current-context) --namespace=$1
+    kcur
+  fi
+fi
