@@ -32,7 +32,7 @@ switch_namespace ()
 {
   get_ns
   #echo -e "\nYou are currently in cluster" $(kubectl config current-context)
-  echo -e "\nPlease select your namespace:\n"
+  echo -e "Please select your namespace:\n"
   createmenu "${ns_array[@]}"
   echo -e "\nSwitching to namespace $option"
   kubectl config set-context $(kubectl config current-context) --namespace=$option
@@ -51,7 +51,7 @@ if [ $# -eq 0 ]; then
 else
   get_ns
   if [[ ! " ${ns_array[@]} " =~ " $1 " ]]; then
-    echo -e "\nOops - can't switch to namespace $1. It doesn't exist.\nHere's a list of the ones that do. Type a number"
+    echo -e "\nUnable to switch namespace '$1' - namespace not found\n"
     switch_namespace
   else
     kubectl config set-context $(kubectl config current-context) --namespace=$1
