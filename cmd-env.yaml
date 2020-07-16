@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  DB_PASS: MyPassw0rD
+  DB_SERVER: mysql01
