@@ -13,6 +13,6 @@ spec:
     name: cpu-stress
     resources:
       limits:
-        cpu: "10"
+        cpu: "4"
       requests:
-        cpu: "1"
+        cpu: "8"
