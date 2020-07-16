@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-env-demo
+  labels:
+    app: db-client
+spec:
+  containers:
+  - envFrom:
+    - configMapRef:
+        name: db-config
+  - name: cm-env-demo
+    image: nginx
+    imagePullPolicy: Always
