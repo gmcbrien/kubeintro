@@ -1,0 +1,18 @@
+iapiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: ['sh', '-c', 'echo The database is up, git is cloned and the app is running! && sleep 3600']
+  initContainers:
+  - name: init-mydb
+    image: busybox
+    command: ['sh', '-c', 'echo I could be waiting for a database to be available using an until nslookup mydd command; sleep 2']
+  - name: git-clone
+    image: busybox
+    command: ['sh', '-c', 'echo Cloning git YOUR_GIT_HERE; sleep 2']
