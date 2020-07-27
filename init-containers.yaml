@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: blueapp-pod
+  name: init-demo-pod
   labels:
     app: blueapp
 spec:
@@ -13,6 +13,99 @@ spec:
   - name: init-mydb
     image: busybox
     command: ['sh', '-c', 'echo I could be waiting for a database to be available using an until nslookup mydb command; sleep 2']
-  - name: git-clone
+  - name: init-git-clone
     image: busybox
     command: ['sh', '-c', 'echo Cloning git YOUR_GIT_HERE; sleep 2']
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: blue
+  namespace: default
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    name: green-container-1
+  initContainers:
+  - command:
+    - sh
+    - -c
+    - sleep 5
+    image: busybox
+    imagePullPolicy: Always
+    name: init-myservice
+  restartPolicy: Always
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: purple
+  namespace: default
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    name: purple-container
+    resources: {}
+  initContainers:
+  - command:
+    - sh
+    - -c
+    - sleep 600
+    image: busybox:1.28
+    name: warm-up-1
+  - command:
+    - sh
+    - -c
+    - sleep 1200
+    image: busybox:1.28
+    name: warm-up-2
+    resources: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: red
+  namespace: default
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: busybox:1.28
+    name: red-container
+    resources: {}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: orange
+  namespace: default
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - echo The app is running! && sleep 3600
+    image: busybox:1.28
+    imagePullPolicy: IfNotPresent
+    name: orange-container
+  initContainers:
+  - command:
+    - sh
+    - -c
+    - sleeeep 2;
+    image: busybox
+    imagePullPolicy: Always
+    name: init-myservice
+    resources: {}
