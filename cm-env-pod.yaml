@@ -6,9 +6,25 @@ metadata:
     app: db-client
 spec:
   containers:
-  - envFrom:
-    - configMapRef:
-        name: db-config
   - name: cm-env-demo
     image: nginx
     imagePullPolicy: Always
+    env:
+    - name: ANOTHER_PARAM
+      valueFrom:
+        configMapKeyRef:
+          name: my-app-config
+          key: another-param
+    - name: EXTRA_PARAM
+      valueFrom:
+        configMapKeyRef:
+          name: my-app-config
+          key: extra-param
+    volumeMounts:
+    - name: config-volume
+      mountPath: /config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: my-app-config
+  restartPolicy: Never
