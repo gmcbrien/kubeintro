@@ -9,5 +9,5 @@ spec:
   - name: myapp-container
     image: busybox
     imagePullPolicy: IfNotPresent
-    command: ['sh', '-c', 'echo My command failed && exit 1']
+    command: ['sh', '-c', 'sl -la']
   restartPolicy: Never
