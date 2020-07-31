@@ -8,4 +8,5 @@ spec:
   containers:
   - name: myapp-container
     image: busybox
-    command: ['sh', '-c', 'echo Command executed now I'm outta here && sleep 6']
+    command: ['sh', '-c', 'echo Command executed. I'm finished for today && sleep 6']
+  restartPolicy: Never
