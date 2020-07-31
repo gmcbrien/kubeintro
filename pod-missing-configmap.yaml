@@ -12,4 +12,4 @@ spec:
           valueFrom:
             configMapKeyRef:
               name: special-config
-              key: special.how
+              key: appconfig
