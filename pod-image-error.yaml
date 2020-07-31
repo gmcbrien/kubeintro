@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mywebserver
+  labels:
+    app: mywebserver
+spec:
+  containers:
+  - name: myapp-container
+    image: nginx:11.9.1
+    command: ['sh', '-c', 'echo I guess the image is wrong && sleep 6']
+  restartPolicy: Never
