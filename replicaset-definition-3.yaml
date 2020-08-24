@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: new-replica-set
-  namespace: default
 spec:
   replicas: 4
   selector:
