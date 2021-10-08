@@ -4,6 +4,7 @@ metadata:
   name: cm-env-demo
   labels:
     app: db-client
+    team: dev
 spec:
   containers:
   - name: cm-env-demo
