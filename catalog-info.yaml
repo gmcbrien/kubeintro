@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: kubeintro
+  annotations:
+    github.com/project-slug: gmcbrien/kubeintro
+spec:
+  type: other
+  lifecycle: unknown
+  owner: grant-mcbrien
